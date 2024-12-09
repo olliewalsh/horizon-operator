@@ -889,13 +889,15 @@ func (r *HorizonReconciler) generateServiceConfigMaps(
 
 	templateParameters := map[string]interface{}{
 		"keystoneURL":        authURL,
+		"horizonEndpoint":    instance.Status.Endpoint,
 		"horizonEndpointUrl": url.Host,
-		"memcachedServers":   mc.GetMemcachedServerListQuotedString(),
-		"memcachedTLS":       mc.GetMemcachedTLSSupport(),
-		"ServerName":         fmt.Sprintf("%s.%s.svc", horizon.ServiceName, instance.Namespace),
-		"Port":               horizon.HorizonPort,
-		"TLS":                false,
-		"isPublicHTTPS":      url.Scheme == "https",
+
+		"memcachedServers": mc.GetMemcachedServerListQuotedString(),
+		"memcachedTLS":     mc.GetMemcachedTLSSupport(),
+		"ServerName":       fmt.Sprintf("%s.%s.svc", horizon.ServiceName, instance.Namespace),
+		"Port":             horizon.HorizonPort,
+		"TLS":              false,
+		"isPublicHTTPS":    url.Scheme == "https",
 	}
 
 	// create httpd tls template parameters
